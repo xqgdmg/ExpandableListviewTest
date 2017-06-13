@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+/*
+ * 继承 Android 系统自带的 BaseExpandableListAdapter
+ */
 public class ExpandableListAdapter extends BaseExpandableListAdapter{
 
 	private Context _context;
-	private List<String> header; // header titles
-	// Child data in format of header title, child title
+	private List<String> header;
 	private HashMap<String, List<String>> child;
 
 	public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listChildData) {
@@ -26,25 +28,27 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 	
 	@Override
 	public int getGroupCount() {
-		// Get header size
 		return this.header.size();
 	}
 
+	/*
+	 * 子布局的数量
+	 */
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		// return children count
 		return this.child.get(this.header.get(groupPosition)).size();
 	}
 
 	@Override
 	public Object getGroup(int groupPosition) {
-		// Get header position
 		return this.header.get(groupPosition);
 	}
 
+	/*
+	 * getChildView 中会调用到这个
+	 */
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
-		// This will return the child
 		return this.child.get(this.header.get(groupPosition)).get(childPosition);
 	}
 
@@ -60,17 +64,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 
 	@Override
 	public boolean hasStableIds() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-		// Getting header title
 		String headerTitle = (String) getGroup(groupPosition);
 		
-		// Inflating header layout and setting text
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = infalInflater.inflate(R.layout.header, parent, false);
@@ -78,16 +79,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 
 		TextView header_text = (TextView) convertView.findViewById(R.id.header);
 		header_text.setText(headerTitle);
-		
-		// If group is expanded then change the text into bold and change the
-		// icon
+
+		/*
+		 * 设置展开和关闭的效果
+		 */
 		if (isExpanded) {
 			header_text.setTypeface(null, Typeface.BOLD);
 			header_text.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_up, 0);
 		} else {
-			// If group is not expanded then change the text back into normal
-			// and change the icon
-
 			header_text.setTypeface(null, Typeface.NORMAL);
 			header_text.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_down, 0);
 		}
@@ -97,9 +96,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 
 	@Override
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-		// Getting child text
-		final String childText = (String) getChild(groupPosition, childPosition);
-		// Inflating child layout and setting textview
+
+		final String childText = (String) getChild(groupPosition, childPosition); // 每个子布局的条目
+
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = infalInflater.inflate(R.layout.childs, parent, false);
@@ -108,12 +107,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 		TextView child_text = (TextView) convertView.findViewById(R.id.child);
 
 		child_text.setText(childText);
+
 		return convertView;
 	}
 
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

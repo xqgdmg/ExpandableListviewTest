@@ -18,7 +18,9 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     </android.support.design.widget.AppBarLayout>
-    
+
+	<!-- app:cardPreventCornerOverlap="true"：在V20和之前的版本中添加内边距，这个属性为了防止内容和边角的重叠
+			app:cardUseCompatPadding="true"：设置内边距，V21+的版本和之前的版本仍旧具有一样的计算方式 -->
     <android.support.v7.widget.CardView
         android:id="@+id/card"
         android:layout_width="match_parent"
@@ -40,7 +42,8 @@
 	        android:orientation="vertical"
 			android:background="@color/colorPrimaryDark"
 			android:padding="5dp">
-	        
+
+			<!-- ExpandableListView 是Android 系统自带的控件 -->
 	        <ExpandableListView 
 	            android:id="@+id/simple_expandable_listview"
 		        android:layout_width="match_parent"
